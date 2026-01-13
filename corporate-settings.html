@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sanitized Ai Corporate Settings</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+    <div class="auth-gate" id="auth-gate">
+        <div class="auth-card">
+            <h2>Admin login</h2>
+            <p class="micro">Enter tenant, admin email, and password.</p>
+            <input type="text" id="auth-tenant" placeholder="Tenant" />
+            <input type="email" id="auth-email" placeholder="Admin email" />
+            <input type="password" id="auth-password" placeholder="Password" />
+            <button id="auth-submit" type="button">Continue</button>
+            <div id="auth-status" class="micro"></div>
+        </div>
+    </div>
+    <div class="app-shell hidden" id="app-shell">
+        <aside class="sidebar sidebar-admin">
+            <a href="/app.html" class="brand" style="text-decoration: none; color: inherit;">
+                <img src="/img/extension-image.png" alt="Sanitized Ai" class="brand-logo" />
+                <div class="brand-name">Sanitized Ai</div>
+            </a>
+            <div class="sidebar-title">Dashboard</div>
+            <div class="nav-links">
+                <a href="/app.html" class="nav-link">Overview</a>
+                <a href="/events.html" class="nav-link">Events</a>
+                <a href="/insights.html" class="nav-link">Data Insights</a>
+            </div>
+            <div class="sidebar-title">My Organisation</div>
+            <div class="nav-links">
+                <a href="/users.html" class="nav-link">Users</a>
+                <a href="/corporate-settings.html" class="nav-link active">Corporate Settings</a>
+            </div>
+            <div class="sidebar-spacer"></div>
+            <div class="sidebar-admin-group">
+                <div class="sidebar-profile sidebar-menu-toggle" id="admin-menu-toggle" role="button" tabindex="0">
+                    <div class="avatar">CC</div>
+                    <div class="meta">
+                        <div class="name">Control Center</div>
+                        <div class="role">Admin Console</div>
+                    </div>
+                </div>
+                <div class="sidebar-admin-menu hidden" id="admin-menu">
+                    <div style="padding: 12px 16px; border-bottom: 1px solid var(--border); margin-bottom: 4px;">
+                        <div id="menu-user-name" style="font-weight: 600; font-size: 13px; color: var(--text-primary);">
+                        </div>
+                        <div id="menu-user-email" style="font-size: 11px; color: var(--text-secondary);"></div>
+                    </div>
+                    <button id="settings-btn" class="ghost small">Settings</button>
+                    <button id="docs-btn" class="ghost small"
+                        onclick="window.location.href='/about.html'">Documentation</button>
+                    <button id="logout-btn" class="ghost small logout" aria-label="Logout">Logout</button>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-column">
+            <header class="hero">
+                <div>
+                    <p class="eyebrow">Sanitized Ai Platform</p>
+                    <h1>Corporate Settings</h1>
+                    <p>Upload your corporate policy to inform prompt analysis.</p>
+                </div>
+            </header>
+
+            <section class="card">
+                <h2>Corporate Policy Context</h2>
+                <p class="micro">
+                    Provide the text of your organization's data handling or AI usage policy.
+                    This context helps inform the types of information considered sensitive.
+                </p>
+
+                <div style="margin-top: 16px;">
+                    <label for="policy-upload">Upload text file</label>
+                    <input type="file" id="policy-upload" accept=".txt,.md"
+                        style="margin-bottom: 12px; max-width: 300px;" />
+                </div>
+
+                <div>
+                    <label for="policy-text">Policy Text</label>
+                    <textarea id="policy-text" class="mono" rows="20"
+                        placeholder="Paste your corporate policy or upload a file..."
+                        style="resize: vertical;"></textarea>
+                </div>
+
+                <div style="margin-top: 16px; display: flex; gap: 12px; align-items: center;">
+                    <button id="save-context-btn">Save Context</button>
+                    <div id="save-status" class="micro"></div>
+                </div>
+            </section>
+
+            <section class="card" style="margin-top: 24px;">
+                <h2>Global Configuration</h2>
+                <div class="drawer-grid" style="grid-template-columns: 1fr 1fr; gap: 24px;">
+                    <div>
+                        <label for="sensitivity-slider">Global Sensitivity Threshold</label>
+                        <div class="sensitivity-control" style="display: flex; align-items: center; gap: 12px;">
+                            <input type="range" id="sensitivity-slider" min="0" max="5" step="0.1" value="1.2"
+                                style="flex: 1;">
+                            <span id="sensitivity-value" class="mono" style="min-width: 32px;">1.2</span>
+                        </div>
+                        <p class="micro">Threshold for all users (Lower = more sensitive).</p>
+                    </div>
+                    <div>
+                        <label class="section-label">Category Taxonomy</label>
+                        <div class="taxonomy-manager">
+                            <table class="taxonomy-table">
+                                <thead>
+                                    <tr>
+                                        <th>Raw Code</th>
+                                        <th>Display Label</th>
+                                        <th style="width: 60px;"></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="taxonomy-body">
+                                    <!-- Populated by JS -->
+                                </tbody>
+                            </table>
+                            <div class="taxonomy-add-row">
+                                <div style="flex: 1;">
+                                    <input type="text" id="new-cat-key" list="code-suggestions"
+                                        placeholder="Code (e.g. ssn)" class="small-input" style="width: 100%;">
+                                    <datalist id="code-suggestions">
+                                        <!-- Populated by JS -->
+                                    </datalist>
+                                </div>
+                                <input type="text" id="new-cat-label" placeholder="Label (e.g. Social Security)"
+                                    class="small-input" style="flex: 1;">
+                                <button id="add-cat-btn" class="small ghost">Add</button>
+                            </div>
+                            <!-- Hidden input to maintain compatibility if needed, or we just remove it and update JS -->
+                        </div>
+                        <p class="micro">Define mapping between raw detection codes and user-friendly labels.</p>
+
+                        <div style="margin-top: 24px;"></div>
+
+                        <label class="section-label">Custom Keyword Triggers</label>
+                        <div class="taxonomy-manager">
+                            <table class="taxonomy-table">
+                                <thead>
+                                    <tr>
+                                        <th>Target Category</th>
+                                        <th>Keywords (Comma separated)</th>
+                                        <th style="width: 60px;"></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="trigger-body">
+                                    <!-- Populated by JS -->
+                                </tbody>
+                            </table>
+                            <div class="taxonomy-add-row">
+                                <div style="flex: 1;">
+                                    <input type="text" id="new-trigger-key" list="trigger-suggestions"
+                                        placeholder="Category Code" class="small-input" style="width: 100%;">
+                                    <datalist id="trigger-suggestions">
+                                        <!-- Populated from Taxonomy -->
+                                    </datalist>
+                                </div>
+                                <input type="text" id="new-trigger-words" placeholder="Keywords (e.g. apollo, eagle)"
+                                    class="small-input" style="flex: 2;">
+                                <button id="add-trigger-btn" class="small ghost">Add</button>
+                            </div>
+                        </div>
+                        <p class="micro">Map custom keywords to existing or new category codes.</p>
+                    </div>
+                </div>
+                <div style="margin-top: 16px; display: flex; gap: 12px; align-items: center;">
+                    <button id="save-config-btn">Save Configuration</button>
+                    <div id="save-config-status" class="micro"></div>
+                </div>
+            </section>
+
+            <section class="settings-drawer hidden" id="settings-drawer">
+                <div class="drawer-header">
+                    <div>
+                        <p class="eyebrow">Tenant settings</p>
+                        <h3 id="settings-title">Configure labels & defaults</h3>
+                    </div>
+                    <div class="drawer-actions">
+                        <button id="settings-save" class="small">Save</button>
+                        <button id="settings-close" class="ghost small">Close</button>
+                    </div>
+                </div>
+                <div class="drawer-grid">
+                    <!-- Settings content will be populated by app.js logic if reused, 
+                but context.js will handle specific drawer logic if needed or we can reuse shared settings logic -->
+                    <!-- For simplicity, this drawer is included to match layout consistency but might require wiring -->
+                    <p class="placeholder">Settings available on Overview page.</p>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="corporate-settings.js" type="module"></script>
+</body>
+
+</html>

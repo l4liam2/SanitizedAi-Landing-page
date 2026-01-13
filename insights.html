@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sanitized Ai Insights</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .kpi-card {
+            background: var(--surface-light);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .kpi-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .kpi-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .kpi-trend {
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .trend-up {
+            color: #F87171;
+        }
+
+        /* Bad if increasing */
+        .trend-down {
+            color: #34D399;
+        }
+
+        /* Good if decreasing */
+        .trend-neutral {
+            color: var(--text-tertiary);
+        }
+
+        .risk-score-container {
+            position: relative;
+            height: 8px;
+            background: var(--surface);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+
+        .risk-score-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #34D399 0%, #FBBF24 50%, #F87171 100%);
+            width: 0%;
+            /* Set by JS */
+            transition: width 1s ease-out;
+        }
+
+        .grid-2-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 1000px) {
+            .grid-2-col {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="auth-gate" id="auth-gate">
+        <div class="auth-card">
+            <h2>Admin login</h2>
+            <p class="micro">Enter tenant, admin email, and password.</p>
+            <input type="text" id="auth-tenant" placeholder="Tenant" />
+            <input type="email" id="auth-email" placeholder="Admin email" />
+            <input type="password" id="auth-password" placeholder="Password" />
+            <button id="auth-submit" type="button">Continue</button>
+            <div id="auth-status" class="micro"></div>
+        </div>
+    </div>
+    <div class="app-shell hidden" id="app-shell">
+        <aside class="sidebar sidebar-admin">
+            <a href="/app.html" class="brand" style="text-decoration: none; color: inherit;">
+                <img src="/img/extension-image.png" alt="Sanitized Ai" class="brand-logo" />
+                <div class="brand-name">Sanitized Ai</div>
+            </a>
+            <div class="sidebar-title">Dashboard</div>
+            <div class="nav-links">
+                <a href="/app.html" class="nav-link">Overview</a>
+                <a href="/events.html" class="nav-link">Events</a>
+                <a href="/insights.html" class="nav-link active">Data Insights</a>
+            </div>
+            <div class="sidebar-title">My Organisation</div>
+            <div class="nav-links">
+                <a href="/users.html" class="nav-link">Users</a>
+                <a href="/corporate-settings.html" class="nav-link">Corporate Settings</a>
+            </div>
+            <div class="sidebar-spacer"></div>
+            <div class="sidebar-admin-group">
+                <div class="sidebar-profile sidebar-menu-toggle" id="admin-menu-toggle" role="button" tabindex="0">
+                    <div class="avatar">CC</div>
+                    <div class="meta">
+                        <div class="name">Control Center</div>
+                        <div class="role">Admin Console</div>
+                    </div>
+                </div>
+                <div class="sidebar-admin-menu hidden" id="admin-menu">
+                    <div style="padding: 12px 16px; border-bottom: 1px solid var(--border); margin-bottom: 4px;">
+                        <div id="menu-user-name" style="font-weight: 600; font-size: 13px; color: var(--text-primary);">
+                        </div>
+                        <div id="menu-user-email" style="font-size: 11px; color: var(--text-secondary);"></div>
+                    </div>
+                    <button id="settings-btn" class="ghost small">Settings</button>
+                    <button id="docs-btn" class="ghost small"
+                        onclick="window.location.href='/about.html'">Documentation</button>
+                    <button id="logout-btn" class="ghost small logout" aria-label="Logout">Logout</button>
+                </div>
+            </div>
+        </aside>
+        <main class="main-column">
+            <header class="hero">
+                <div>
+                    <p class="eyebrow">Intelligence & Risk</p>
+                    <h1>Data Insights</h1>
+                    <p>Risk scoring, user analysis, and departmental breakdown.</p>
+                </div>
+                <button id="refresh-btn">Refresh Data</button>
+            </header>
+
+            <!-- KPI Grid -->
+            <section class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="tooltip-container">
+                        <div class="kpi-label" style="margin:0">Tenant Risk Score</div>
+                        <div class="info-icon">i</div>
+                        <div class="tooltip-content">
+                            <span class="tooltip-title">Tenant Risk Score</span>
+                            <span class="tooltip-text">
+                                Normalized score (0-100) based on average event severity over 30 days.<br><br>
+                                <strong>Formula:</strong> Avg Severity × 20.<br>
+                                <strong>0-25:</strong> Low Risk<br>
+                                <strong>26-70:</strong> Moderate Risk<br>
+                                <strong>71+:</strong> High Risk
+                            </span>
+                        </div>
+                    </div>
+                    <div class="kpi-value" id="risk-score-val">--</div>
+                    <div class="risk-score-container">
+                        <div class="risk-score-bar" id="risk-score-bar"></div>
+                    </div>
+                    <div class="kpi-trend" id="risk-desc">Based on severity vol.</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Threat Velocity (24h)</div>
+                    <div class="kpi-value" id="velocity-val">--</div>
+                    <div class="kpi-trend" id="velocity-trend">--</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Total Events (30d)</div>
+                    <div class="kpi-value" id="total-events-val">--</div>
+                    <div class="kpi-trend"><span id="blocked-count">0</span> Blocked</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="tooltip-container">
+                        <div class="kpi-label" style="margin:0">User Risk Distribution</div>
+                        <div class="info-icon">i</div>
+                        <div class="tooltip-content" style="width: 300px;">
+                            <span class="tooltip-title">Risk Segmentation</span>
+                            <span class="tooltip-text">
+                                Users categorized by cumulative severity.<br>
+                                <strong>High:</strong> > 50 points<br>
+                                <strong>Medium:</strong> 10-50 points OR > 2 events (Repeat Offender rule)<br>
+                                <strong>Low:</strong>
+                                < 10 points </span>
+                        </div>
+                    </div>
+                    <div class="kpi-value" style="font-size: 1.5rem; display: flex; gap: 8px; margin-top: 4px;">
+                        <span style="color: #F87171;" id="risk-high-val">0%</span>
+                        <span style="color: #FBBF24;" id="risk-med-val">0%</span>
+                        <span style="color: #34D399;" id="risk-low-val">0%</span>
+                    </div>
+                    <div class="kpi-trend" style="font-size: 0.75rem; margin-top: 4px;">
+                        High / Med / Low
+                    </div>
+                </div>
+            </section>
+
+            <div class="grid-2-col">
+                <!-- Risky Users -->
+                <section class="card table-card">
+                    <div class="table-header">
+                        <div>
+                            <h3>Risky Users Leaderboard</h3>
+                            <p class="micro">Top users by accumulated risk points.</p>
+                        </div>
+                    </div>
+                    <div class="table-scroll">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>User</th>
+                                    <th>Dep.</th>
+                                    <th>Events</th>
+                                    <th>Risk Pts.</th>
+                                </tr>
+                            </thead>
+                            <tbody id="risky-users-body">
+                                <tr>
+                                    <td colspan="4" class="placeholder">Loading...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Department Insights -->
+                <section class="card table-card">
+                    <div class="table-header">
+                        <div>
+                            <h3>Department Risk Profile</h3>
+                            <p class="micro">Aggregated risk by department.</p>
+                        </div>
+                    </div>
+                    <div class="table-scroll">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Department</th>
+                                    <th>Active Users</th>
+                                    <th>Avg Risk</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody id="dept-body">
+                                <tr>
+                                    <td colspan="4" class="placeholder">Loading...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Host Risks -->
+            <section class="card table-card" style="margin-top: 1.5rem;">
+                <div class="table-header">
+                    <div>
+                        <h3>Top Risky AIs</h3>
+                        <p class="micro">Websites where users generate the most risk.</p>
+                    </div>
+                </div>
+                <div class="table-scroll">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Host</th>
+                                <th>Event Count</th>
+                                <th>Total Severity</th>
+                            </tr>
+                        </thead>
+                        <tbody id="host-body">
+                            <tr>
+                                <td colspan="3" class="placeholder">Loading...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- False Positive Reports removed from here -->
+
+            <section class="settings-drawer hidden" id="settings-drawer">
+                <!-- Settings Drawer content (reused from other pages mostly for consistency if needed, but minimal here) -->
+                <div class="drawer-header">
+                    <div>
+                        <p class="eyebrow">Tenant settings</p>
+                        <h3 id="settings-title">Configure labels & defaults</h3>
+                    </div>
+                    <div class="drawer-actions">
+                        <button id="settings-save" class="small">Save</button>
+                        <button id="settings-close" class="ghost small">Close</button>
+                    </div>
+                </div>
+                <div class="drawer-grid">
+                    <!-- Reuse basic fields if we want common settings logic or just leave blank for now -->
+                    <p class="micro">Settings are managed on the Events page.</p>
+                </div>
+                <div id="settings-status" class="micro"></div>
+            </section>
+
+        </main>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="insights.js" type="module"></script>
+</body>
+
+</html>

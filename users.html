@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sanitized Ai Users</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <div class="auth-gate" id="auth-gate">
+    <div class="auth-card">
+      <h2>Admin login</h2>
+      <p class="micro">Enter your admin credentials to access the dashboard.</p>
+      <input type="text" id="auth-tenant" placeholder="Tenant ID" />
+      <input type="email" id="auth-email" placeholder="Admin Email" />
+      <input type="password" id="auth-password" placeholder="Password" />
+      <button id="auth-submit" type="button">Login</button>
+      <div id="auth-status" class="micro"></div>
+    </div>
+  </div>
+  <div class="app-shell hidden" id="app-shell">
+    <aside class="sidebar sidebar-admin">
+      <a href="/app.html" class="brand" style="text-decoration: none; color: inherit;">
+        <img src="/img/extension-image.png" alt="Sanitized Ai" class="brand-logo" />
+        <div class="brand-name">Sanitized Ai</div>
+      </a>
+      <div class="sidebar-title">Dashboard</div>
+      <div class="nav-links">
+        <a href="/app.html" class="nav-link">Overview</a>
+        <a href="/events.html" class="nav-link">Events</a>
+        <a href="/insights.html" class="nav-link">Data Insights</a>
+      </div>
+      <div class="sidebar-title">My Organisation</div>
+      <div class="nav-links">
+        <a href="/users.html" class="nav-link active">Users</a>
+        <a href="/corporate-settings.html" class="nav-link">Corporate Settings</a>
+      </div>
+      <div class="sidebar-spacer"></div>
+      <div class="sidebar-admin-group">
+        <div class="sidebar-profile sidebar-menu-toggle" id="admin-menu-toggle" role="button" tabindex="0">
+          <div class="avatar">CC</div>
+          <div class="meta">
+            <div class="name">Control Center</div>
+            <div class="role">Admin Console</div>
+          </div>
+        </div>
+        <div class="sidebar-admin-menu hidden" id="admin-menu">
+          <div style="padding: 12px 16px; border-bottom: 1px solid var(--border); margin-bottom: 4px;">
+            <div id="menu-user-name" style="font-weight: 600; font-size: 13px; color: var(--text-primary);"></div>
+            <div id="menu-user-email" style="font-size: 11px; color: var(--text-secondary);"></div>
+          </div>
+          <button id="settings-btn" class="ghost small">Settings</button>
+          <button id="docs-btn" class="ghost small" onclick="window.location.href='/about.html'">Documentation</button>
+          <button id="logout-btn" class="ghost small logout" aria-label="Logout">Logout</button>
+        </div>
+      </div>
+    </aside>
+    <main class="main-column">
+      <header class="hero">
+        <div>
+          <p class="eyebrow">Sanitized Ai Platform</p>
+          <h1>User Management</h1>
+          <p>Create tenant users, search, and inspect their flags.</p>
+        </div>
+      </header>
+
+      <section class="card config-card">
+        <div class="session-row">
+          <div class="session-pill">
+            Current tenant: <span id="current-tenant">—</span>
+          </div>
+          <div class="session-controls">
+            <label>
+              Search users
+              <input type="search" id="user-search" placeholder="Email or name" />
+            </label>
+            <label>
+              Role
+              <select id="user-role-filter">
+                <option value="all">All</option>
+                <option value="admin">Admin</option>
+                <option value="user">User</option>
+              </select>
+            </label>
+            <label>
+              Status
+              <select id="user-status-filter">
+                <option value="all">All</option>
+                <option value="active">Active</option>
+                <option value="disabled">Disabled</option>
+              </select>
+            </label>
+            <label>
+              Limit
+              <select id="user-limit">
+                <option value="25">25</option>
+                <option value="50" selected>50</option>
+                <option value="100">100</option>
+              </select>
+            </label>
+            <button id="refresh-users">Load users</button>
+          </div>
+        </div>
+        <div class="status-row">
+          <div id="users-status" role="status"></div>
+          <div class="pager" id="users-pager">
+            <div id="users-pagination" class="micro">Page 1</div>
+            <div class="pager-buttons">
+              <button id="users-prev" class="ghost small">Prev</button>
+              <button id="users-next" class="ghost small">Next</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card table-card">
+        <div class="table-header">
+          <div>
+            <h2>Users</h2>
+            <p class="micro">Click a user to load their recent flags.</p>
+          </div>
+        </div>
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Email</th>
+                <th>Name</th>
+                <th>Department</th>
+                <th>Role</th>
+                <th>Status</th>
+                <th>Created</th>
+              </tr>
+            </thead>
+            <tbody id="users-body">
+              <tr>
+                <td colspan="6" class="placeholder">Load users to view directory.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-header">
+          <div>
+            <h2 id="user-form-title">Create user</h2>
+            <p class="micro">Provision or update users. Emails are unique per tenant.</p>
+          </div>
+        </div>
+        <div class="grid two-col">
+          <div class="field">
+            <label for="new-email">Email</label>
+            <input type="email" id="new-email" placeholder="user@example.com" />
+          </div>
+          <div class="field">
+            <label for="new-department">Department (optional)</label>
+            <input type="text" id="new-department" placeholder="Engineering, Sales..." />
+          </div>
+          <div class="field">
+            <label for="new-name">Name (optional)</label>
+            <input type="text" id="new-name" placeholder="Full name" />
+          </div>
+          <div class="field">
+            <label for="new-role">Role</label>
+            <select id="new-role">
+              <option value="user">User</option>
+              <option value="admin">Admin</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="new-status">Status</label>
+            <select id="new-status">
+              <option value="active">Active</option>
+              <option value="disabled">Disabled</option>
+            </select>
+          </div>
+        </div>
+        <div class="actions">
+          <button id="create-user">Create User</button>
+          <button id="import-users-btn" class="ghost" style="margin-left:auto;">Import CSV</button>
+          <input type="file" id="import-users-file" accept=".csv" class="hidden" />
+          <button id="update-user" class="hidden" style="background: var(--accent);">Update User</button>
+          <button id="delete-user" class="hidden" style="background: #EF4444;">Delete User</button>
+          <button id="cancel-edit" class="ghost hidden">Cancel</button>
+          <div id="create-status" class="micro"></div>
+        </div>
+      </section>
+
+      <section class="card table-card">
+        <div class="table-header">
+          <div>
+            <h2>User flags</h2>
+            <p class="micro">
+              Recent events for <span id="selected-user-label">no user selected</span>. Includes userId/installId +
+              legacy hash.
+            </p>
+          </div>
+          <div class="session-controls">
+            <label>
+              Limit
+              <select id="events-limit">
+                <option value="25" selected>25</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+              </select>
+            </label>
+            <label>
+              Action
+              <select id="events-action">
+                <option value="all">All</option>
+                <option value="blocked">Blocked</option>
+                <option value="override">Override</option>
+                <option value="warning">Warning</option>
+              </select>
+            </label>
+            <label>
+              Category
+              <input type="text" id="events-category" placeholder="pii" />
+            </label>
+            <label>
+              Severity ≥
+              <input type="number" id="events-severity-min" min="0" max="5" step="0.1" />
+            </label>
+            <label>
+              Severity ≤
+              <input type="number" id="events-severity-max" min="0" max="5" step="0.1" />
+            </label>
+            <label>
+              Start
+              <input type="date" id="events-start" />
+            </label>
+            <label>
+              End
+              <input type="date" id="events-end" />
+            </label>
+            <button id="refresh-events" class="ghost">Refresh</button>
+          </div>
+        </div>
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Time</th>
+                <th>Action</th>
+                <th>Categories</th>
+                <th>Rules</th>
+                <th>Severity</th>
+                <th>Install</th>
+              </tr>
+            </thead>
+            <tbody id="events-body">
+              <tr>
+                <td colspan="6" class="placeholder">Select a user to view events.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="users.js"></script>
+</body>
+
+</html>

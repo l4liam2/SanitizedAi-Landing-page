@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sanitized Ai Platform, Super Admin</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <div class="auth-gate" id="auth-gate">
+    <div class="auth-card">
+      <h2>Super admin login</h2>
+      <p class="micro">Use super-admin API key or JWT.</p>
+      <input type="password" id="super-token" placeholder="Super admin key or Bearer token" />
+      <button id="auth-submit" type="button">Continue</button>
+      <div id="auth-status" class="micro"></div>
+    </div>
+  </div>
+
+  <div class="app-shell hidden" id="app-shell">
+    <aside class="sidebar sidebar-admin">
+      <div class="brand">
+        <img src="/img/extension-image.png" alt="Sanitized Ai" class="brand-logo" />
+        <div class="brand-name">Sanitized Ai</div>
+      </div>
+      <div class="sidebar-title">Super Admin</div>
+      <div class="nav-links">
+        <a href="#" class="nav-link active" id="nav-tenants">Tenants</a>
+        <a href="#" class="nav-link" id="nav-users">Users</a>
+        <a href="/app.html" class="nav-link">Dashboard</a>
+      </div>
+      <div class="sidebar-spacer"></div>
+      <div class="sidebar-admin-group">
+        <div class="sidebar-profile">
+          <div class="avatar">SA</div>
+          <div class="meta">
+            <div class="name">Super Admin</div>
+            <div class="role">Platform</div>
+          </div>
+        </div>
+        <button id="logout-btn" class="ghost small logout" aria-label="Logout">Logout</button>
+      </div>
+    </aside>
+
+    <main class="main-column">
+      <header class="hero">
+        <div>
+          <p class="eyebrow">Sanitized Ai Platform</p>
+          <h1>Tenant Management Console</h1>
+          <p>Create, update, and remove tenants; inspect tenant users.</p>
+        </div>
+      </header>
+
+      <section class="card config-card">
+        <div id="tab-tenants" class="tab-content tab-group-tenants">
+          <div class="session-row">
+            <div class="session-controls">
+              <button id="refresh-tenants">Reload tenants</button>
+            </div>
+          </div>
+          <div class="status-row">
+            <div id="tenants-status" role="status"></div>
+          </div>
+        </div>
+      </section>
+
+      <div class="tab-group-tenants">
+        <section class="card table-card">
+          <div class="table-header">
+            <div>
+              <h2>Tenants</h2>
+              <p class="micro">Select a tenant to edit config or view users.</p>
+            </div>
+          </div>
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>Tenant ID</th>
+                  <th>Display name</th>
+                  <th>Has config</th>
+                  <th>Has ingest key</th>
+                </tr>
+              </thead>
+              <tbody id="tenants-body">
+                <tr>
+                  <td colspan="4" class="placeholder">Load tenants to begin.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="card">
+          <div class="section-header">
+            <div>
+              <h2>Create / update tenant</h2>
+              <p class="micro">Set display name and branding metadata.</p>
+            </div>
+          </div>
+          <div class="grid two-col">
+            <div class="field">
+              <label for="tenant-id">Tenant ID</label>
+              <input type="text" id="tenant-id" placeholder="tenant_123" />
+            </div>
+            <div class="field">
+              <label for="tenant-display">Display name</label>
+              <input type="text" id="tenant-display" placeholder="Acme Inc." />
+            </div>
+            <div class="field">
+              <label for="tenant-logo">Logo Upload</label>
+              <div class="logo-upload-group">
+                <input type="file" id="tenant-logo-file" accept="image/png, image/jpeg, image/svg+xml" />
+              </div>
+              <div id="logo-preview-container" class="hidden mt-2">
+                <p class="micro">Preview:</p>
+                <img id="logo-preview" src="" alt="Logo Preview"
+                  style="max-height: 60px; border: 1px solid var(--glass-border); border-radius: 8px; padding: 4px; background: rgba(255,255,255,0.1);" />
+                <button id="clear-logo-file" class="ghost small" style="margin-top: 4px;">Clear File</button>
+              </div>
+            </div>
+            <div class="field">
+              <label for="tenant-accent">Accent color</label>
+              <input type="text" id="tenant-accent" placeholder="#3B82F6" />
+            </div>
+          </div>
+          <div class="actions">
+            <button id="save-tenant">Save tenant</button>
+            <button id="delete-tenant" class="ghost">Delete tenant</button>
+            <div id="tenant-status" class="micro"></div>
+          </div>
+        </section>
+      </div>
+
+      <div class="tab-group-users hidden">
+        <section class="card config-card">
+          <div class="field">
+            <label for="sa-user-tenant">Select Tenant to Manage</label>
+            <select id="sa-user-tenant">
+              <option value="">Select tenant</option>
+            </select>
+          </div>
+        </section>
+
+        <section class="card table-card">
+          <div class="table-header">
+            <div>
+              <h2>Tenant users</h2>
+              <p class="micro">Quickly inspect and manage users for the selected tenant.</p>
+            </div>
+            <div class="session-controls">
+              <label>
+                Limit
+                <select id="sa-user-limit">
+                  <option value="25" selected>25</option>
+                  <option value="50">50</option>
+                </select>
+              </label>
+              <button id="sa-load-users" class="ghost">Load users</button>
+            </div>
+          </div>
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>Email</th>
+                  <th>Name</th>
+                  <th>Department</th>
+                  <th>Role</th>
+                  <th>Status</th>
+                  <th>Password set</th>
+                  <th>Last changed</th>
+                </tr>
+              </thead>
+              <tbody id="sa-users-body">
+                <tr>
+                  <td colspan="7" class="placeholder">Select a tenant.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="card">
+          <div class="section-header">
+            <div>
+              <h2>Create / update tenant user</h2>
+              <p class="micro">Manage admin and regular users for the selected tenant.</p>
+            </div>
+          </div>
+          <div class="grid two-col">
+            <div class="field">
+              <label for="sa-user-email">Email</label>
+              <input type="email" id="sa-user-email" placeholder="user@example.com" />
+            </div>
+            <div class="field">
+              <label for="sa-user-name">Name</label>
+              <input type="text" id="sa-user-name" placeholder="Full name" />
+            </div>
+            <div class="field">
+              <label for="sa-user-department">Department</label>
+              <input type="text" id="sa-user-department" placeholder="Engineering, Sales..." />
+            </div>
+            <div class="field">
+              <label for="sa-user-role">Role</label>
+              <select id="sa-user-role">
+                <option value="user">User</option>
+                <option value="admin">Admin</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="sa-user-status">Status</label>
+              <select id="sa-user-status">
+                <option value="active">Active</option>
+                <option value="disabled">Disabled</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="sa-user-temp">Temporary password (optional)</label>
+              <input type="text" id="sa-user-temp" placeholder="Generate or set temp password" />
+              <p class="micro">If set, user must change at first login.</p>
+            </div>
+          </div>
+          <div id="sa-user-status-msg" class="micro"></div>
+          <div class="actions">
+            <button id="sa-save-user">Save Changes</button>
+            <button id="sa-reset-pass" class="ghost small">Reset Password</button>
+            <button id="sa-clear-user" class="ghost small">Clear</button>
+            <button id="sa-delete-user" class="ghost hidden"
+              style="color: #EF4444; border-color: rgba(239, 68, 68, 0.3);">Delete User</button>
+          </div>
+      </div>
+      </section>
+  </div>
+  </main>
+
+
+  <div id="toast-container" class="toast-container"></div>
+  </div>
+
+  <script src="superadmin.js"></script>
+</body>
+
+</html>

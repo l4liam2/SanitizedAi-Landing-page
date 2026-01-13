@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sanitized Ai Playground</title>
+    <style>
+        body {
+            background: #0f172a;
+            color: #e2e8f0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .header {
+            border-bottom: 1px solid #334155;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 24px;
+            color: #60a5fa;
+        }
+
+        p {
+            margin: 8px 0 0;
+            color: #94a3b8;
+        }
+
+        .chat-box {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .message-list {
+            height: 300px;
+            overflow-y: auto;
+            border: 1px solid #334155;
+            background: #0f172a;
+            border-radius: 8px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .message {
+            padding: 10px 14px;
+            border-radius: 8px;
+            max-width: 80%;
+            line-height: 1.5;
+        }
+
+        .message.user {
+            align-self: flex-end;
+            background: #2563eb;
+            color: white;
+        }
+
+        .message.system {
+            align-self: flex-start;
+            background: #334155;
+            color: #e2e8f0;
+        }
+
+        .input-area {
+            display: flex;
+            gap: 12px;
+            position: relative;
+        }
+
+        textarea {
+            flex: 1;
+            background: #334155;
+            border: 1px solid #475569;
+            border-radius: 8px;
+            padding: 12px;
+            color: white;
+            font-family: inherit;
+            resize: none;
+            height: 80px;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #60a5fa;
+            box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.2);
+        }
+
+        button#send-btn {
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 0 24px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        button#send-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .controls {
+            display: flex;
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .control-btn {
+            background: #334155;
+            color: #e2e8f0;
+            border: 1px solid #475569;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .control-btn:hover {
+            background: #475569;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Sanitized Ai Playground</h1>
+            <p>Test sensitive data detection and sanitization features in a safe environment.</p>
+        </div>
+
+        <div class="chat-box">
+            <div class="message-list" id="messages">
+                <div class="message system">Hello! I am a simulated AI assistant. Try sending a message with sensitive
+                    data (e.g., email, phone, credit card) to test the PrAIvacy Assistant.</div>
+            </div>
+
+            <form id="chat-form" class="input-area">
+                <textarea id="prompt-textarea" placeholder="Type a message..." data-testid="prompt-textarea"></textarea>
+                <button type="submit" id="send-btn" data-testid="send-button">Send</button>
+            </form>
+        </div>
+
+        <div class="controls">
+            <button class="control-btn" onclick="insertSample('email')">Insert Email Sample</button>
+            <button class="control-btn" onclick="insertSample('card')">Insert Card Sample</button>
+            <button class="control-btn" onclick="insertSample('mixed')">Insert Mixed Sample</button>
+            <button class="control-btn" onclick="clearLogs()">Clear Logs</button>
+        </div>
+    </div>
+
+    <script src="mock-chrome.js"></script>
+    <!-- Load content script as a module or regular script depending on how it's written -->
+    <script src="/extension-src/content-script.js"></script>
+
+    <script>
+        const textarea = document.getElementById('prompt-textarea');
+        const messages = document.getElementById('messages');
+        const form = document.getElementById('chat-form');
+
+        // Helper to insert samples
+        window.insertSample = (type) => {
+            let text = "";
+            switch (type) {
+                case 'email': text = "Contact me at john.doe@example.com regarding the project."; break;
+                case 'card': text = "Please charge the card 4532 1234 5678 9012 for the subscription."; break;
+                case 'mixed': text = "Employee A (salary $120k) sent the API key sk-1234567890abcdef to client@corp.com."; break;
+            }
+            textarea.value = text;
+            textarea.focus();
+        };
+
+        window.clearLogs = () => {
+            console.clear();
+            console.log("Logs cleared");
+        };
+
+        // Simulate chat behavior
+        form.addEventListener('submit', (e) => {
+            // The content script should intercept this
+            // If it doesn't (or if allowed through), we show the message
+            e.preventDefault();
+
+            // Small delay to allow content script to intercept
+            setTimeout(() => {
+                if (textarea.value) {
+                    addMessage(textarea.value, 'user');
+                    textarea.value = "";
+
+                    // Simulate AI response
+                    setTimeout(() => {
+                        addMessage("I received your message. (This is a simulation)", 'system');
+                    }, 1000);
+                }
+            }, 100);
+        });
+
+        function addMessage(text, type) {
+            const div = document.createElement('div');
+            div.className = `message ${type}`;
+            div.textContent = text;
+            messages.appendChild(div);
+            messages.scrollTop = messages.scrollHeight;
+        }
+    </script>
+</body>
+
+</html>
