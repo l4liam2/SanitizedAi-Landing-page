@@ -233,6 +233,22 @@
             animation: data-flow 2s linear infinite;
         }
 
+        /* Footer text positioning styles */
+        p.text-xs {
+            display: flex;
+            flex-wrap: wrap;
+            position: absolute;
+        }
+
+        footer .container {
+            left: unset;
+        }
+
+        footer p.text-xs.text-muted-foreground.text-center {
+            left: 412px;
+            top: 67px;
+        }
+
         /* Override some Lovable badge styles if needed, but keeping inline provided styles */
     </style>
 
@@ -861,6 +877,9 @@
                             <span class="gradient-text">Ai</span></span>
                     </a>
 
+                    <p class="text-xs text-muted-foreground text-center">© 2026 Sanitized AI Inc. All rights reserved.
+                    </p>
+
                     <div class="flex items-center gap-4">
                         <a href="https://www.linkedin.com/company/sanitized-ai/" target="_blank"
                             rel="noopener noreferrer"
@@ -868,7 +887,7 @@
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                 stroke-linejoin="round"
-                                class="text-muted-foreground group-hover:text-[#0a66c2] transition-colors">
+                                class="lucide lucide-linkedin text-muted-foreground group-hover:text-[#0a66c2] transition-colors">
                                 <path
                                     d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z">
                                 </path>
@@ -880,12 +899,6 @@
                                 us on LinkedIn</span>
                         </a>
                     </div>
-                </div>
-
-                <div
-                    class="mt-8 pt-8 border-t border-white/[0.05] flex flex-col md:flex-row items-center justify-center gap-4">
-                    <p class="text-xs text-muted-foreground text-center">© 2026 Sanitized AI Inc. All
-                        rights reserved.</p>
                 </div>
             </div>
         </footer>
