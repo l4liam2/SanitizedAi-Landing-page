@@ -304,8 +304,9 @@
                                 Started</button>
                         </div>
 
-                        <!-- Mobile Menu -->
-                        <button class="md:hidden p-2 text-muted-foreground hover:text-foreground transition-colors">
+                        <!-- Mobile Menu Button -->
+                        <button id="mobile-menu-btn"
+                            class="md:hidden p-2 text-muted-foreground hover:text-foreground transition-colors">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                 stroke-linejoin="round" class="lucide lucide-menu h-5 w-5">
@@ -314,6 +315,30 @@
                                 <line x1="4" x2="20" y1="18" y2="18"></line>
                             </svg>
                         </button>
+                    </div>
+                </div>
+
+                <!-- Mobile Menu Overlay -->
+                <div id="mobile-menu"
+                    class="hidden md:hidden fixed inset-x-0 top-[64px] bg-background/95 backdrop-blur-xl border-b border-white/10 p-6 shadow-2xl z-40 transition-all duration-300 ease-in-out">
+                    <div class="flex flex-col space-y-4">
+                        <a href="#features"
+                            class="text-base font-medium text-muted-foreground hover:text-foreground transition-colors py-2 block">Features</a>
+                        <a href="#how-it-works"
+                            class="text-base font-medium text-muted-foreground hover:text-foreground transition-colors py-2 block">How
+                            It Works</a>
+                        <a href="#security"
+                            class="text-base font-medium text-muted-foreground hover:text-foreground transition-colors py-2 block">Security</a>
+                        <a href="#pricing"
+                            class="text-base font-medium text-muted-foreground hover:text-foreground transition-colors py-2 block">Pricing</a>
+                        <div class="pt-4 flex flex-col gap-3">
+                            <button
+                                class="w-full inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-white/[0.05] hover:text-foreground h-10 rounded-lg border border-white/10"
+                                onclick="window.location.href='/index.html'">Log In</button>
+                            <button
+                                class="w-full inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-gradient-to-br from-primary to-[hsl(217,91%,50%)] text-primary-foreground shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/35 hover:brightness-110 h-10 rounded-lg"
+                                onclick="window.location.href='/intake.html'">Get Started</button>
+                        </div>
                     </div>
                 </div>
             </nav>
@@ -410,7 +435,7 @@
                     </div>
 
                     <!-- Floating Icons -->
-                    <div class="absolute top-1/4 left-[10%] animate-float">
+                    <div class="absolute top-1/4 left-[10%] animate-float hidden lg:block">
                         <div class="glass h-16 w-16 rounded-2xl flex items-center justify-center glow-subtle">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -421,7 +446,8 @@
                             </svg>
                         </div>
                     </div>
-                    <div class="absolute top-1/3 right-[15%] animate-float" style="animation-delay: 2s;">
+                    <div class="absolute top-1/3 right-[15%] animate-float hidden lg:block"
+                        style="animation-delay: 2s;">
                         <div class="glass h-14 w-14 rounded-2xl flex items-center justify-center">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -433,7 +459,8 @@
                             </svg>
                         </div>
                     </div>
-                    <div class="absolute top-[35%] left-[20%] animate-float" style="animation-delay: 4s;">
+                    <div class="absolute top-[35%] left-[20%] animate-float hidden lg:block"
+                        style="animation-delay: 4s;">
                         <div class="glass h-12 w-12 rounded-xl flex items-center justify-center">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -911,6 +938,24 @@
             document.querySelectorAll('.reveal-on-scroll').forEach((element) => {
                 observer.observe(element);
             });
+
+            // Mobile Menu Logic
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            if (mobileMenuBtn && mobileMenu) {
+                mobileMenuBtn.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                });
+
+                // Close menu when clicking links
+                const mobileLinks = mobileMenu.querySelectorAll('a');
+                mobileLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                        mobileMenu.classList.add('hidden');
+                    });
+                });
+            }
 
             // Video Player Logic
             const watchDemoBtn = document.getElementById('watch-demo-btn');
