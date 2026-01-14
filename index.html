@@ -81,6 +81,10 @@
             color: #f8fafc;
         }
 
+        #root {
+            margin-top: 20px;
+        }
+
         .glass {
             background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(12px);
@@ -273,7 +277,8 @@
                                 class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium ring-offset-background transition-all duration-200 ease-out-expo focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-white/[0.05] hover:text-foreground h-9 rounded-lg px-4"
                                 onclick="window.location.href='/index.html'">Log In</button>
                             <button
-                                class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium ring-offset-background transition-all duration-200 ease-out-expo focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-gradient-to-br from-primary to-[hsl(217,91%,50%)] text-primary-foreground shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/35 hover:brightness-110 h-9 rounded-lg px-4">Get
+                                class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium ring-offset-background transition-all duration-200 ease-out-expo focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-gradient-to-br from-primary to-[hsl(217,91%,50%)] text-primary-foreground shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/35 hover:brightness-110 h-9 rounded-lg px-4"
+                                onclick="window.location.href='/intake.html'">Get
                                 Started</button>
                         </div>
 
@@ -316,7 +321,8 @@
                             <div
                                 class="flex flex-col sm:flex-row items-center justify-center gap-4 reveal-on-scroll delay-200">
                                 <button
-                                    class="inline-flex items-center justify-center gap-2 whitespace-nowrap ring-offset-background transition-all duration-200 ease-out-expo focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-gradient-to-br from-primary to-[hsl(217,91%,50%)] text-primary-foreground font-semibold shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40 hover:scale-[1.02] hover:brightness-110 h-14 px-10 text-lg rounded-xl">
+                                    class="inline-flex items-center justify-center gap-2 whitespace-nowrap ring-offset-background transition-all duration-200 ease-out-expo focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-gradient-to-br from-primary to-[hsl(217,91%,50%)] text-primary-foreground font-semibold shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40 hover:scale-[1.02] hover:brightness-110 h-14 px-10 text-lg rounded-xl"
+                                    onclick="window.location.href='/intake.html'">
                                     Request Early Access
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -354,7 +360,8 @@
                             <div
                                 class="aspect-video bg-black/40 backdrop-blur-md flex items-center justify-center relative">
                                 <div class="absolute inset-0 bg-gradient-to-tr from-primary/5 to-transparent"></div>
-                                <div class="absolute inset-0 flex items-center justify-center" style="left: 2px; top: -44px;">
+                                <div class="absolute inset-0 flex items-center justify-center"
+                                    style="left: 2px; top: -44px;">
                                     <button
                                         class="w-20 h-20 flex items-center justify-center rounded-full bg-white/10 backdrop-blur-md border border-white/20 shadow-xl group-hover:scale-110 transition-transform duration-300 group-hover:bg-white/20">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -689,15 +696,16 @@
         </main>
 
         <footer class="border-t border-white/[0.08]">
-            <div class="flex flex-col items-center text-center" style="justify-content: center;">
+            <div class="flex flex-col items-center text-center" style="justify-content: center; padding-top: 20px;">
                 <a href="/" class="flex items-center gap-2.5 mb-6 group">
-                    <span class="text-xl font-bold tracking-tight" style="vertical-align: middle; border-width: 1px; border-color: rgba(0, 0, 0, 1);">Sanitized <span
-                            class="gradient-text">Ai</span></span>
+                    <span class="text-xl font-bold tracking-tight"
+                        style="vertical-align: middle; border-width: 1px; border-color: rgba(0, 0, 0, 1);">Sanitized
+                        <span class="gradient-text">Ai</span></span>
                     <div
                         class="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-[hsl(217,91%,50%)] shadow-lg shadow-primary/25 group-hover:scale-110 transition-transform duration-300">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" class="lucide lucide-shield h-5 w-5 text-primary-foreground">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="lucide lucide-shield h-5 w-5 text-primary-foreground">
                             <path
                                 d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z">
                             </path>
