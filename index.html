@@ -680,11 +680,33 @@
                 z-index: 40;
                 pointer-events: none;
                 animation: fadeIn 0.3s ease;
+                z-index: 99999;
+                /* Maintain visibility in fullscreen */
             }
         }
 
         .mobile-instruction-bar {
             display: none;
+        }
+
+        /* Mobile Landscape Optimization */
+        @media (max-height: 600px) and (orientation: landscape) {
+            #demo-video-container.demo-fullscreen {
+                padding: 10px !important;
+                /* Less padding in landscape */
+            }
+
+            #demo-video-container.demo-fullscreen .demo-player {
+                max-height: 95vh;
+                /* Maximize vertical space */
+            }
+
+            .demo-expand-btn {
+                top: 8px;
+                right: 8px;
+                padding: 6px;
+                /* Smaller button in landscape to save space */
+            }
         }
 
         /* Expand Button Styles */
@@ -696,7 +718,11 @@
             background: rgba(15, 23, 42, 0.6);
             border: 1px solid rgba(255, 255, 255, 0.2);
             color: white;
-            padding: 10px;
+            padding: 12px;
+            /* Increased padding for touch target */
+            min-width: 48px;
+            /* Minimum touch target size */
+            min-height: 48px;
             border-radius: 8px;
             cursor: pointer;
             backdrop-filter: blur(8px);
