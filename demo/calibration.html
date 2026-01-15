@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        body {
+            margin: 0;
+            background: #333;
+        }
+
+        .container {
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        img {
+            width: 100%;
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Image 1 Calibration -->
+        <img id="img1"
+            src="/Users/liam-mini/.gemini/antigravity/brain/08871ff3-0f9f-4082-8b5c-89686bfbcc17/uploaded_image_0_1768498487428.png">
+
+        <!-- Image 3 Calibration -->
+        <img id="img3"
+            src="/Users/liam-mini/.gemini/antigravity/brain/08871ff3-0f9f-4082-8b5c-89686bfbcc17/uploaded_image_1_1768498487428.png">
+
+        <!-- Image 6 Calibration -->
+        <img id="img6"
+            src="/Users/liam-mini/.gemini/antigravity/brain/08871ff3-0f9f-4082-8b5c-89686bfbcc17/uploaded_image_2_1768498487428.png">
+    </div>
+
+    <script>
+        document.querySelectorAll('img').forEach(img => {
+            img.addEventListener('click', (e) => {
+                const rect = img.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const percentX = (x / rect.width) * 100;
+                const percentY = (y / rect.height) * 100;
+                console.log(`CLICKED ${img.id}: x=${percentX.toFixed(1)}, y=${percentY.toFixed(1)}`);
+
+                // Add visual marker
+                const marker = document.createElement('div');
+                marker.style.position = 'absolute';
+                marker.style.left = percentX + '%';
+                marker.style.top = percentY + '%';
+                marker.style.width = '10px';
+                marker.style.height = '10px';
+                marker.style.background = 'red';
+                marker.style.borderRadius = '50%';
+                marker.style.transform = 'translate(-50%, -50%)';
+                marker.style.pointerEvents = 'none';
+                img.parentNode.appendChild(marker);
+            });
+        });
+    </script>
+</body>
+
+</html>

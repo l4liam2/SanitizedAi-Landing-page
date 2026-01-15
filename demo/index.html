@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive SaaS Demo</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="demo-wrapper">
+        <div id="demo-player" class="demo-player">
+            <div id="loading" class="loading">Loading Demo...</div>
+            <div id="demo-content" class="demo-content hidden">
+                <div class="image-container">
+                    <img id="current-image" src="" alt="Demo Screen">
+                    <div id="hotspaces-layer"></div>
+                </div>
+
+                <div id="intro-screen" class="intro-screen hidden">
+                    <div class="intro-content">
+                        <h1>Sanitized AI</h1>
+                        <p>Real-time Risk Management for AI</p>
+                        <button id="start-btn" class="start-btn">Start Interactive Demo</button>
+                    </div>
+                </div>
+
+                <div id="transition-screen" class="transition-screen hidden">
+                    <h1 id="transition-title"></h1>
+                    <p id="transition-subtitle"></p>
+                    <button id="transition-btn" class="transition-btn">Continue</button>
+                </div>
+
+                <div class="demo-controls">
+                    <div class="progress-container">
+                        <div id="progress-bar" class="progress-bar"></div>
+                    </div>
+                    <div class="step-indicator">
+                        <span id="step-count">1</span> / <span id="total-steps">3</span>
+                    </div>
+                </div>
+
+                <button id="restart-btn" class="restart-btn hidden">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z" />
+                        <path
+                            d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966a.25.25 0 0 1 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z" />
+                    </svg>
+                    Restart Demo
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Template for Hotspot -->
+    <template id="hotspot-template">
+        <div class="hotspot">
+            <div class="hotspot-ring"></div>
+            <div class="hotspot-dot"></div>
+            <div class="hotspot-tooltip"></div>
+        </div>
+    </template>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

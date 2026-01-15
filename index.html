@@ -256,6 +256,372 @@
 
 
         /* Override some Lovable badge styles if needed, but keeping inline provided styles */
+        /* User provided inline styles end here, appending Demo Styles */
+
+        /* Interactive Demo Styles (Scoped) */
+        :root {
+            --demo-primary: #6366f1;
+            --demo-primary-hover: #4f46e5;
+            --demo-tooltip-bg: rgba(15, 23, 42, 0.95);
+            --demo-text: #f8fafc;
+            --demo-ring: rgba(99, 102, 241, 0.6);
+        }
+
+        .demo-wrapper {
+            width: 100%;
+            /* max-width removed to fit container */
+            padding: 0;
+            /* removed padding to fit container */
+            display: flex;
+            justify-content: center;
+            font-family: 'Inter', sans-serif;
+            color: var(--demo-text);
+        }
+
+        .demo-wrapper * {
+            box-sizing: border-box;
+        }
+
+        .demo-player {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: #1e293b;
+            border-radius: 12px;
+            /* box-shadow removed as container has it */
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .loading {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+            color: #94a3b8;
+        }
+
+        .demo-content {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .demo-content:not(.hidden) {
+            opacity: 1;
+        }
+
+        /* .hidden is likely already defined in Tailwind/global, but ensuring specificity/utility */
+        .demo-content .hidden,
+        .demo-player .hidden {
+            display: none !important;
+        }
+
+        .image-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .demo-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        /* Hotspots */
+        #hotspaces-layer {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+        }
+
+        .hotspot {
+            position: absolute;
+            width: 32px;
+            height: 32px;
+            transform: translate(-50%, -50%);
+            cursor: pointer;
+            pointer-events: auto;
+            z-index: 10;
+        }
+
+        .hotspot-dot {
+            position: absolute;
+            inset: 8px;
+            background-color: var(--demo-primary);
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+            transition: transform 0.2s ease;
+        }
+
+        .hotspot-ring {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            background-color: var(--demo-ring);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(0.5);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        .hotspot:hover .hotspot-dot {
+            transform: scale(1.2);
+            background-color: #fff;
+        }
+
+        /* Tooltip */
+        .hotspot-tooltip {
+            position: absolute;
+            left: 50%;
+            top: 140%;
+            transform: translateX(-50%) translateY(-10px);
+            background-color: var(--demo-tooltip-bg);
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+            pointer-events: none;
+        }
+
+        .hotspot-tooltip::after {
+            content: '';
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            margin-left: -6px;
+            border-width: 6px;
+            border-style: solid;
+            border-color: transparent transparent var(--demo-tooltip-bg) transparent;
+        }
+
+        .hotspot:hover .hotspot-tooltip {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* Annotations */
+        .annotation {
+            position: absolute;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            font-size: 1rem;
+            line-height: 1.5;
+            max-width: 300px;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+            z-index: 5;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -40%);
+            }
+
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%);
+            }
+        }
+
+        /* Controls */
+        .demo-controls {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            pointer-events: none;
+        }
+
+        .progress-container {
+            flex-grow: 1;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+            margin-right: 20px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--demo-primary);
+            width: 33.33%;
+            transition: width 0.5s ease;
+        }
+
+        .step-indicator {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            backdrop-filter: blur(4px);
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .restart-btn {
+            position: absolute;
+            top: 60%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 12px 24px;
+            border-radius: 8px;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            z-index: 20;
+        }
+
+        .restart-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translate(-50%, -50%) scale(1.05);
+        }
+
+        /* Transition Screen */
+        .transition-screen {
+            position: absolute;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 50;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .transition-screen h1 {
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .transition-screen p {
+            font-size: 1.2rem;
+            color: #cbd5e1;
+            margin-bottom: 32px;
+        }
+
+        .transition-btn {
+            background: var(--demo-primary);
+            color: white;
+            border: none;
+            padding: 12px 32px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .transition-btn:hover {
+            background: var(--demo-primary-hover);
+        }
+
+        /* Intro Screen */
+        .intro-screen {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 60;
+            text-align: center;
+        }
+
+        .intro-content {
+            animation: slideUp 0.8s ease-out;
+        }
+
+        .intro-screen h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, #fff 0%, #a5b4fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -1px;
+        }
+
+        .intro-screen p {
+            font-size: 1.25rem;
+            color: #94a3b8;
+            margin-bottom: 48px;
+            font-weight: 300;
+        }
+
+        .start-btn {
+            background: var(--demo-primary);
+            color: white;
+            border: none;
+            padding: 16px 48px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .start-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 30px -10px rgba(99, 102, 241, 0.6);
+            background: var(--demo-primary-hover);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
     </style>
 
 
@@ -404,33 +770,61 @@
                         <!-- Demo Video Placeholder -->
                         <div id="demo-video-container"
                             class="mt-16 relative w-full max-w-4xl mx-auto rounded-2xl overflow-hidden shadow-2xl shadow-primary/20 border border-white/10 group reveal-on-scroll delay-300">
-                            <!-- Helper comment: Replace src with your actual demo video URL -->
-                            <video id="hero-video" class="w-full h-full object-cover hidden" controls preload="none"
-                                poster="">
-                                <source
-                                    src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
-                                    type="video/mp4">
-                                Your browser does not support the video tag.
-                            </video>
+                            <!-- Interactive Demo Embed (Direct Integration) -->
+                            <div class="demo-wrapper">
+                                <div id="demo-player" class="demo-player">
+                                    <div id="loading" class="loading">Loading Demo...</div>
+                                    <div id="demo-content" class="demo-content hidden">
+                                        <div class="image-container">
+                                            <img id="current-image" src="" alt="Demo Screen">
+                                            <div id="hotspaces-layer"></div>
+                                        </div>
 
-                            <div id="video-overlay"
-                                class="aspect-video bg-black/40 backdrop-blur-md flex items-center justify-center relative cursor-pointer hover:bg-black/30 transition-colors">
-                                <div class="absolute inset-0 bg-gradient-to-tr from-primary/5 to-transparent"></div>
-                                <div class="absolute inset-0 flex items-center justify-center"
-                                    style="left: 2px; top: -44px;">
-                                    <button
-                                        class="w-20 h-20 flex items-center justify-center rounded-full bg-white/10 backdrop-blur-md border border-white/20 shadow-xl group-hover:scale-110 transition-transform duration-300 group-hover:bg-white/20">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            viewBox="0 0 24 24" fill="currentColor" stroke="none"
-                                            class="w-8 h-8 text-white ml-1">
-                                            <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                                        </svg>
-                                    </button>
+                                        <div id="intro-screen" class="intro-screen hidden">
+                                            <div class="intro-content">
+                                                <h1>Sanitized AI</h1>
+                                                <p>Real-time Risk Management for AI</p>
+                                                <button id="start-btn" class="start-btn">Start Interactive Demo</button>
+                                            </div>
+                                        </div>
+
+                                        <div id="transition-screen" class="transition-screen hidden">
+                                            <h1 id="transition-title"></h1>
+                                            <p id="transition-subtitle"></p>
+                                            <button id="transition-btn" class="transition-btn">Continue</button>
+                                        </div>
+
+                                        <div class="demo-controls">
+                                            <div class="progress-container">
+                                                <div id="progress-bar" class="progress-bar"></div>
+                                            </div>
+                                            <div class="step-indicator">
+                                                <span id="step-count">1</span> / <span id="total-steps">3</span>
+                                            </div>
+                                        </div>
+
+                                        <button id="restart-btn" class="restart-btn hidden">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                fill="currentColor" viewBox="0 0 16 16">
+                                                <path fill-rule="evenodd"
+                                                    d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z" />
+                                                <path
+                                                    d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966a.25.25 0 0 1 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z" />
+                                            </svg>
+                                            Restart Demo
+                                        </button>
+                                    </div>
                                 </div>
-                                <span
-                                    class="absolute bottom-6 left-6 text-sm font-medium text-white/80 bg-black/50 px-3 py-1.5 rounded-lg border border-white/10 backdrop-blur-sm">Product
-                                    Demo</span>
                             </div>
+
+                            <!-- Template for Hotspot -->
+                            <template id="hotspot-template">
+                                <div class="hotspot">
+                                    <div class="hotspot-ring"></div>
+                                    <div class="hotspot-dot"></div>
+                                    <div class="hotspot-tooltip"></div>
+                                </div>
+                            </template>
                         </div>
                     </div>
 
@@ -987,5 +1381,236 @@
         });
     </script>
 </body>
+
+<script>
+    const demoData = [
+        // Intro Step
+        {
+            id: 'intro',
+            type: 'intro',
+            nextStep: 1
+        },
+
+        // Step 1: Click Extension Icon (Top Right)
+        { id: 1, image: 'demo/1.png', hotspots: [{ x: 87.5, y: 6.5, text: "User makes sure they have the extension installed", nextStep: 2 }] },
+
+        // Step 2: Click Text Input (Center-Left)
+        { id: 2, image: 'demo/2.png', hotspots: [{ x: 34, y: 51, text: "User Types Their Prompt", nextStep: 3 }] },
+
+        // Step 3: Click 'Send' Arrow (Right of Input)
+        { id: 3, image: 'demo/3.png', hotspots: [{ x: 72, y: 67, text: "User Sends Prompt", nextStep: 4 }] },
+
+        // Step 4: Click 'Insert Sanitized' Button (Popup Bottom Right)
+        {
+            id: 4,
+            image: 'demo/4.png',
+            hotspots: [{ x: 91.5, y: 71, text: "Insert Sanitized Prompt", nextStep: 5 }],
+            annotations: [
+                {
+                    x: 75,
+                    y: 40,
+                    text: "Once a prompt is flagged, users can choose how they want to move forward. Sanitized Ai lets the user choose the level of risk they want to take."
+                }
+            ]
+        },
+
+        // Step 5: Click 'OK' on Confirmation Dialog (Center)
+        { id: 5, image: 'demo/5.png', hotspots: [{ x: 60.5, y: 21.5, text: "Once the User Confirms the Replacement, the prompt is released and sent off.", nextStep: 'transition-1' }] },
+
+        // Transition Step
+        {
+            id: 'transition-1',
+            type: 'transition',
+            title: "Risk Manager View",
+            subtitle: "Reviewing anonymous risk events and insights.",
+            nextStep: 6
+        },
+
+        // Step 6: Click 'Data Insights' (Left Sidebar)
+        { id: 6, image: 'demo/6.png', hotspots: [{ x: 12, y: 29, text: "Risk Managers Can View Data Insights", nextStep: 7 }] },
+
+        // Step 7: Final State
+        { id: 7, image: 'demo/7.png', hotspots: [], isLast: true }
+    ];
+
+    class DemoPlayer {
+        constructor(data) {
+            this.data = data;
+            this.currentStepIndex = 0;
+
+            // Elements
+            this.player = document.getElementById('demo-player');
+            this.content = document.querySelector('#demo-player .demo-content'); // More specific selector
+            this.loading = document.getElementById('loading');
+            this.image = document.getElementById('current-image');
+            this.layer = document.getElementById('hotspaces-layer');
+            this.progressBar = document.getElementById('progress-bar');
+            this.stepCount = document.getElementById('step-count');
+            this.totalSteps = document.getElementById('total-steps');
+            this.restartBtn = document.getElementById('restart-btn');
+            this.template = document.getElementById('hotspot-template');
+
+            // Transition Elements
+            this.transitionScreen = document.getElementById('transition-screen');
+            this.transitionTitle = document.getElementById('transition-title');
+            this.transitionSubtitle = document.getElementById('transition-subtitle');
+            this.transitionBtn = document.getElementById('transition-btn');
+
+            // Intro Elements
+            this.introScreen = document.getElementById('intro-screen');
+            this.startBtn = document.getElementById('start-btn');
+
+            // Init
+            this.realSteps = this.data.filter(s => !s.type).length;
+            this.totalSteps.textContent = this.realSteps;
+
+            this.init();
+        }
+
+        init() {
+            setTimeout(() => {
+                this.loading.classList.add('hidden');
+                this.content.classList.remove('hidden');
+                this.renderStep(0);
+            }, 500);
+
+            this.restartBtn.addEventListener('click', () => {
+                this.restartBtn.classList.add('hidden');
+                this.renderStep(0);
+            });
+
+            this.transitionBtn.addEventListener('click', () => {
+                this.advanceToNextStep();
+            });
+
+            this.startBtn.addEventListener('click', () => {
+                // Find index of Step 1
+                const nextIndex = this.data.findIndex(s => s.id === 1);
+                if (nextIndex !== -1) {
+                    this.renderStep(nextIndex);
+                }
+            });
+        }
+
+        advanceToNextStep() {
+            const step = this.data[this.currentStepIndex];
+            if (step.nextStep) {
+                const nextIndex = this.data.findIndex(s => s.id === step.nextStep);
+                if (nextIndex !== -1) {
+                    this.renderStep(nextIndex);
+                }
+            }
+        }
+
+        renderStep(index) {
+            this.currentStepIndex = index;
+            const step = this.data[index];
+
+            // Handle Intro Step
+            if (step.type === 'intro') {
+                this.image.parentElement.classList.add('hidden');
+                this.layer.classList.add('hidden');
+                this.introScreen.classList.remove('hidden');
+                this.transitionScreen.classList.add('hidden');
+                this.progressBar.style.width = '0%';
+                return;
+            } else {
+                this.introScreen.classList.add('hidden');
+            }
+
+            // Handle Transition Step
+            if (step.type === 'transition') {
+                this.layer.classList.add('hidden');
+                this.transitionScreen.classList.remove('hidden');
+                this.transitionTitle.textContent = step.title;
+                this.transitionSubtitle.textContent = step.subtitle;
+                return;
+            } else {
+                this.transitionScreen.classList.add('hidden');
+                this.image.parentElement.classList.remove('hidden');
+                this.layer.classList.remove('hidden');
+            }
+
+            // Update Image
+            this.image.style.opacity = '0';
+
+            setTimeout(() => {
+                this.image.src = step.image;
+                this.image.onload = () => {
+                    this.image.style.opacity = '1';
+                };
+            }, 150);
+
+            // Update Progress
+            let currentStepNum = typeof step.id === 'number' ? step.id : this.currentStepIndex;
+            const progress = (currentStepNum / this.realSteps) * 100;
+            this.progressBar.style.width = `${progress}%`;
+
+            if (typeof step.id === 'number') {
+                this.stepCount.textContent = step.id;
+            }
+
+            // Clear existing hotspots and annotations
+            this.layer.innerHTML = '';
+
+            // Add Hotspots
+            if (step.hotspots) {
+                step.hotspots.forEach(hotspotData => {
+                    this.createHotspot(hotspotData);
+                });
+            }
+
+            // Add Annotations
+            if (step.annotations) {
+                step.annotations.forEach(note => {
+                    this.createAnnotation(note);
+                });
+            }
+
+            // Handle Last Step
+            if (step.isLast) {
+                this.restartBtn.classList.remove('hidden');
+            } else {
+                this.restartBtn.classList.add('hidden');
+            }
+        }
+
+        createHotspot(data) {
+            const clone = this.template.content.cloneNode(true);
+            const hotspot = clone.querySelector('.hotspot');
+            const tooltip = clone.querySelector('.hotspot-tooltip');
+
+            hotspot.style.left = `${data.x}%`;
+            hotspot.style.top = `${data.y}%`;
+            tooltip.textContent = data.text;
+
+            hotspot.addEventListener('click', () => {
+                if (data.nextStep) {
+                    const nextIndex = this.data.findIndex(s => s.id === data.nextStep);
+                    if (nextIndex !== -1) {
+                        this.renderStep(nextIndex);
+                    }
+                }
+            });
+
+            this.layer.appendChild(hotspot);
+        }
+
+        createAnnotation(data) {
+            const note = document.createElement('div');
+            note.className = 'annotation';
+            note.textContent = data.text;
+            note.style.left = `${data.x}%`;
+            note.style.top = `${data.y}%`;
+
+            this.layer.appendChild(note);
+        }
+    }
+
+    // Start
+    document.addEventListener('DOMContentLoaded', () => {
+        new DemoPlayer(demoData);
+    });
+</script>
 
 </html>
