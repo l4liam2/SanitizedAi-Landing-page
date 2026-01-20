@@ -547,16 +547,20 @@
             background: var(--demo-primary);
             color: white;
             border: none;
-            padding: 12px 32px;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 500;
+            padding: 16px 40px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
             cursor: pointer;
-            transition: background 0.2s;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.6);
+            animation: intense-pulse 2s infinite;
         }
 
         .transition-btn:hover {
             background: var(--demo-primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px rgba(99, 102, 241, 0.8);
         }
 
         /* Intro Screen */
@@ -593,22 +597,60 @@
         }
 
         .start-btn {
-            background: var(--demo-primary);
+            background: linear-gradient(135deg, var(--demo-primary) 0%, var(--demo-primary-hover) 100%);
             color: white;
             border: none;
-            padding: 16px 48px;
+            padding: 20px 64px;
             border-radius: 50px;
-            font-size: 1.1rem;
-            font-weight: 600;
+            font-size: 1.25rem;
+            font-weight: 700;
             cursor: pointer;
-            box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.5);
-            transition: all 0.3s ease;
+            box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.7);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: button-pulse 2s infinite;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
         }
 
         .start-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 20px 30px -10px rgba(99, 102, 241, 0.6);
-            background: var(--demo-primary-hover);
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 20px 40px -10px rgba(99, 102, 241, 0.6);
+            background: linear-gradient(135deg, var(--demo-primary-hover) 0%, #4338ca 100%);
+        }
+
+        @keyframes intense-pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.9);
+            }
+
+            70% {
+                transform: scale(1.05);
+                box-shadow: 0 0 0 20px rgba(99, 102, 241, 0);
+            }
+
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(99, 102, 241, 0);
+            }
+        }
+
+        @keyframes button-pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.7);
+            }
+
+            70% {
+                transform: scale(1.05);
+                box-shadow: 0 0 0 15px rgba(99, 102, 241, 0);
+            }
+
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(99, 102, 241, 0);
+            }
         }
 
         @keyframes slideUp {
@@ -712,30 +754,61 @@
         /* Expand Button Styles */
         .demo-expand-btn {
             position: absolute;
-            top: 16px;
-            right: 16px;
+            top: 20px;
+            right: 20px;
             z-index: 100;
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.3);
             color: white;
-            padding: 12px;
+            padding: 14px;
             /* Increased padding for touch target */
-            min-width: 48px;
+            min-width: 52px;
             /* Minimum touch target size */
-            min-height: 48px;
-            border-radius: 8px;
+            min-height: 52px;
+            border-radius: 10px;
             cursor: pointer;
             backdrop-filter: blur(8px);
             transition: all 0.2s ease;
             display: flex;
             align-items: center;
             justify-content: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
 
         .demo-expand-btn:hover {
-            background: rgba(15, 23, 42, 0.9);
-            transform: scale(1.05);
-            border-color: rgba(255, 255, 255, 0.4);
+            background: #0f172a;
+            transform: scale(1.1);
+            border-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+        }
+
+        /* Back Button Styles */
+        .demo-back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 100;
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 14px;
+            min-width: 52px;
+            min-height: 52px;
+            border-radius: 10px;
+            cursor: pointer;
+            backdrop-filter: blur(8px);
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .demo-back-btn:hover {
+            background: #0f172a;
+            transform: scale(1.1);
+            border-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
         }
 
         /* Fullscreen State */
@@ -927,6 +1000,15 @@
                                             <polyline points="9 21 3 21 3 15"></polyline>
                                             <line x1="21" y1="3" x2="14" y2="10"></line>
                                             <line x1="3" y1="21" x2="10" y2="14"></line>
+                                        </svg>
+                                    </button>
+                                    <button id="demo-back-btn" class="demo-back-btn hidden" aria-label="Previous Step">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round"
+                                            class="lucide lucide-arrow-left">
+                                            <line x1="19" y1="12" x2="5" y2="12"></line>
+                                            <polyline points="12 19 5 12 12 5"></polyline>
                                         </svg>
                                     </button>
                                     <div id="loading" class="loading">Loading Demo...</div>
@@ -1609,6 +1691,7 @@
             this.stepCount = document.getElementById('step-count');
             this.totalSteps = document.getElementById('total-steps');
             this.restartBtn = document.getElementById('restart-btn');
+            this.backBtn = document.getElementById('demo-back-btn');
             this.template = document.getElementById('hotspot-template');
 
             // Transition Elements
@@ -1643,6 +1726,10 @@
                 this.renderStep(0);
             });
 
+            this.backBtn.addEventListener('click', () => {
+                this.goToPreviousStep();
+            });
+
             this.transitionBtn.addEventListener('click', () => {
                 this.advanceToNextStep();
             });
@@ -1666,6 +1753,15 @@
             }
         }
 
+        goToPreviousStep() {
+            if (this.currentStepIndex > 0) {
+                // Determine logic for previous step.
+                // Simple decrement isn't enough because steps might not be sequential in array order (though they are here)
+                // But generally we can just go back to previous index since history is linear in this demo
+                this.renderStep(this.currentStepIndex - 1);
+            }
+        }
+
         renderStep(index) {
             this.currentStepIndex = index;
             const step = this.data[index];
@@ -1677,10 +1773,12 @@
                 this.introScreen.classList.remove('hidden');
                 this.transitionScreen.classList.add('hidden');
                 this.progressBar.style.width = '0%';
+                this.backBtn.classList.add('hidden');
                 return;
             } else {
                 this.introScreen.classList.add('hidden');
                 this.mobileInstruction.classList.add('hidden'); // Default hide, show later if needed
+                this.backBtn.classList.remove('hidden');
             }
 
             // Handle Transition Step
