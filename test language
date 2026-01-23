@@ -1,9 +1,0 @@
-I have added Spanish (es) and German (de) localization to the website.
-
-How to test:
-
-Spanish: index.html?lang=es
-German: index.html?lang=de
-French: index.html?lang=fr
-English: index.html?lang=en
-As before, "Sanitized Ai" remains untranslated in all versions. The correct language will also be automatically detected based on the user's browser settings if no URL parameter is provided.
