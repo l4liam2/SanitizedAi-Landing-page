@@ -62,6 +62,12 @@ export function Navbar() {
                             >
                                 {t.nav.pricing}
                             </Link>
+                            <Link
+                                href="/blog"
+                                className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
+                            >
+                                {t.nav.blog}
+                            </Link>
                         </div>
 
                         {/* CTA Buttons */}
@@ -125,6 +131,13 @@ export function Navbar() {
                                 onClick={() => setIsMobileMenuOpen(false)}
                             >
                                 {t.nav.pricing}
+                            </Link>
+                            <Link
+                                href="/blog"
+                                className="text-base font-medium text-muted-foreground hover:text-foreground transition-colors py-2 block"
+                                onClick={() => setIsMobileMenuOpen(false)}
+                            >
+                                {t.nav.blog}
                             </Link>
                             <div className="pt-4 flex flex-col gap-3">
                                 <Link

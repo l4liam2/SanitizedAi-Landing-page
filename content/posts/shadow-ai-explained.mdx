@@ -1,0 +1,50 @@
+---
+title: 'The Hidden Dangers of Shadow AI: How PII Leaks Through LLMs'
+date: '2025-11-15'
+summary: 'Employees are using AI tools without approval. Here is how that leads to massive PII leakage and what you can do about it.'
+author: 'Sanitized AI Team'
+tags: ['Security', 'Shadow AI', 'compliance']
+---
+
+In the modern enterprise, **Shadow AI** is the new Shadow IT. 
+
+Employees, eager to be more productive, are pasting sensitive corporate data into public Large Language Models (LLMs) like ChatGPT, Claude, and Gemini. While these tools are powerful, they often train on user data by default, leading to permanent exposure of Personally Identifiable Information (PII) and Intellectual Property (IP).
+
+## What is Shadow AI?
+
+Shadow AI refers to the unsanctioned use of artificial intelligence tools within an organization. Unlike Shadow IT, which often involved installing unapproved software, Shadow AI can be as simple as visiting a website.
+
+> "The easier it is to use a tool, the harder it is to police."
+
+## The PII Leakage Vector
+
+When an employee pastes a customer support ticket into an LLM to "summarize this thread," they might inadvertently paste:
+- Customer Names
+- Email Addresses
+- Credit Card Numbers
+- API Keys
+
+Once this data hits the model provider's servers, you have lost control.
+
+### Example Scenario
+
+Imagine a developer debugging a piece of code that processes user payments. They paste the following snippet into a chatbot:
+
+```json
+{
+  "user_id": "12345",
+  "name": "Jane Doe",
+  "email": "jane@example.com",
+  "credit_card": "4532-xxxx-xxxx-8888" // Real data in clipboard!
+}
+```
+
+This JSON blob is now part of the chat history and potentially the training set for future models.
+
+## How to Mitigate the Risk
+
+1.  **Policy**: Establish clear usage guidelines.
+2.  **Training**: Educate staff on what constitutes sensitive data.
+3.  **Tooling**: Use tools like **Sanitized AI** to automatically redact PII before it leaves your browser.
+
+Protect your organization by sanitizing data *before* it touches the cloud.

@@ -4,6 +4,9 @@ const nextConfig = {
     images: {
         unoptimized: true,
     },
+    experimental: {
+        serverComponentsExternalPackages: ['shiki', 'vscode-oniguruma'],
+    },
 };
 
 export default nextConfig;

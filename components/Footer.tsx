@@ -10,7 +10,7 @@ export function Footer() {
         <footer className="py-12 border-t border-white/10 relative z-10 bg-background">
             <div className="container mx-auto px-6">
                 <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 md:flex-1">
                         <span className="text-lg font-bold tracking-tight">
                             Sanitized <span className="gradient-text">Ai</span>
                         </span>
@@ -20,7 +20,13 @@ export function Footer() {
                         {t.footer.rights}
                     </p>
 
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-6 md:flex-1 md:justify-end">
+                        <Link
+                            href="/blog"
+                            className="text-sm text-neutral-500 hover:text-white transition-colors"
+                        >
+                            {t.nav.blog}
+                        </Link>
                         <Link
                             href="https://linkedin.com"
                             target="_blank"
@@ -48,6 +54,6 @@ export function Footer() {
                     </div>
                 </div>
             </div>
-        </footer>
+        </footer >
     );
 }
