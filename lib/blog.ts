@@ -25,10 +25,10 @@ export function getPosts(): Post[] {
     const fileNames = fs.readdirSync(postsDirectory);
 
     const allPostsData = fileNames
-        .filter((fileName) => fileName.endsWith('.mdx'))
+        .filter((fileName) => fileName.endsWith('.mdx') || fileName.endsWith('.md'))
         .map((fileName) => {
-            // Remove ".mdx" from file name to get id
-            const slug = fileName.replace(/\.mdx$/, '');
+            // Remove extension from file name to get id
+            const slug = fileName.replace(/\.mdx?$/, '');
 
             // Read markdown file as string
             const fullPath = path.join(postsDirectory, fileName);
@@ -57,7 +57,13 @@ export function getPosts(): Post[] {
 // Retrieve a single blog post by slug
 export function getPostBySlug(slug: string): Post | undefined {
     try {
-        const fullPath = path.join(postsDirectory, `${slug}.mdx`);
+        let fullPath = path.join(postsDirectory, `${slug}.mdx`);
+
+        // If .mdx doesn't exist, try .md
+        if (!fs.existsSync(fullPath)) {
+            fullPath = path.join(postsDirectory, `${slug}.md`);
+        }
+
         const fileContents = fs.readFileSync(fullPath, 'utf8');
 
         // Use gray-matter to parse the post metadata section
