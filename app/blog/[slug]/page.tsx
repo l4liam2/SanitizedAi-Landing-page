@@ -46,13 +46,13 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
 
     return (
         <Suspense fallback={null}>
-            <div className="flex flex-col min-h-screen bg-neutral-950 text-neutral-50">
+            <div className="flex flex-col min-h-screen bg-background text-foreground">
                 <Navbar />
                 <main className="flex-1 py-24">
                     <div className="container px-4 md:px-6 mx-auto max-w-3xl">
 
                         <div className="mb-8">
-                            <Link href="/blog" className="inline-flex items-center text-sm text-neutral-400 hover:text-white transition-colors">
+                            <Link href="/blog" className="inline-flex items-center text-sm text-muted-foreground hover:text-white transition-colors">
                                 <ArrowLeft className="mr-2 h-4 w-4" />
                                 Back to Blog
                             </Link>
@@ -60,7 +60,7 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
 
                         <article className="prose prose-invert prose-blue max-w-none">
                             <header className="mb-10 text-center not-prose">
-                                <div className="flex items-center justify-center space-x-2 text-sm text-neutral-500 mb-4">
+                                <div className="flex items-center justify-center space-x-2 text-sm text-muted-foreground mb-4">
                                     <time dateTime={post.metadata.date}>
                                         {new Date(post.metadata.date).toLocaleDateString('en-US', {
                                             year: 'numeric',

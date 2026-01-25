@@ -18,15 +18,15 @@ export default function BlogIndex() {
 
     return (
         <Suspense fallback={null}>
-            <div className="flex flex-col min-h-screen bg-neutral-950 text-neutral-50">
+            <div className="flex flex-col min-h-screen bg-background text-foreground">
                 <Navbar />
                 <main className="flex-1 py-24">
                     <div className="container px-4 md:px-6 mx-auto max-w-4xl">
                         <div className="flex flex-col items-center text-center space-y-4 mb-16">
-                            <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl bg-clip-text text-transparent bg-gradient-to-r from-white to-neutral-400">
+                            <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl bg-clip-text text-transparent bg-gradient-to-r from-white to-neutral-400 pb-2.5">
                                 Security Insights
                             </h1>
-                            <p className="mx-auto max-w-[700px] text-neutral-400 md:text-xl">
+                            <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
                                 Deep dives into Shadow AI, PII protection, and the future of secure LLM adoption.
                             </p>
                         </div>
@@ -37,7 +37,7 @@ export default function BlogIndex() {
                                     <Link href={`/blog/${post.slug}`} className="absolute inset-0 z-10" prefetch={true}>
                                         <span className="sr-only">View Article</span>
                                     </Link>
-                                    <div className="flex items-center space-x-2 text-sm text-neutral-500">
+                                    <div className="flex items-center space-x-2 text-sm text-muted-foreground">
                                         <time dateTime={post.metadata.date}>
                                             {new Date(post.metadata.date).toLocaleDateString('en-US', {
                                                 year: 'numeric',
@@ -51,7 +51,7 @@ export default function BlogIndex() {
                                     <h2 className="text-2xl font-bold group-hover:text-blue-400 transition-colors">
                                         {post.metadata.title}
                                     </h2>
-                                    <p className="text-neutral-400 leading-relaxed">
+                                    <p className="text-muted-foreground leading-relaxed">
                                         {post.metadata.summary}
                                     </p>
                                     <div className="text-blue-400 font-medium group-hover:underline flex items-center">
@@ -62,7 +62,7 @@ export default function BlogIndex() {
                             ))}
 
                             {posts.length === 0 && (
-                                <div className="text-center py-20 text-neutral-500">
+                                <div className="text-center py-20 text-muted-foreground">
                                     <p>No articles published yet. Check back soon!</p>
                                 </div>
                             )}
